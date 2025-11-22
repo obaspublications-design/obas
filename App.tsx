@@ -6,14 +6,19 @@ import { Home, ServicesPage, ResourcesPage, ProcessPage, ContactPage } from './p
 import { AdminLogin, AdminDashboard } from './pages/AdminDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
+// Protected Route Component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAdmin } = useSite();
+  
+  // If not admin, redirect to login
   if (!isAdmin) {
     return <Navigate to="/login" replace />;
   }
+  
   return <>{children}</>;
 };
 
+// Main Content Wrapper to use Site Context within Router
 const AppContent = () => {
   return (
     <Layout>
@@ -32,13 +37,14 @@ const AppContent = () => {
             </ProtectedRoute>
           } 
         />
-        {/* Fallback route */}
+        {/* Fallback to Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>
   );
 };
 
+// Root App Component
 const App = () => {
   return (
     <HelmetProvider>
